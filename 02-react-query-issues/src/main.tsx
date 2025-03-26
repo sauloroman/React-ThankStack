@@ -11,7 +11,10 @@ import './index.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: { refetchOnWindowFocus: false }
+    queries: { 
+      refetchOnWindowFocus: false, 
+      retry: false // PARA QUE NO REINTENTE LAS PETICIONES HTTP
+    },
   }
 })
 
