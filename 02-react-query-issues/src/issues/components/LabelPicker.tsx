@@ -2,7 +2,12 @@ import React from "react";
 import { useLabels } from "../hooks";
 import { LoadingSpinner } from "../shared";
 
-export const LabelPicker: React.FC = () => {
+interface Props {
+  selectedLabels: string[],
+  onLabelSelected: (label: string) => void,
+}
+
+export const LabelPicker: React.FC<Props> = ({selectedLabels, onLabelSelected}) => {
 
   const { labelsQuery } = useLabels()
 
@@ -17,8 +22,9 @@ export const LabelPicker: React.FC = () => {
       {
         labelsQuery.data?.map( labelQuery => (
           <span
+            onClick={ () => onLabelSelected( labelQuery.name ) }
             key={labelQuery.id}
-            className="animate-fadeIn px-2 py-1 rounded-full text-xs font-semibold hover:bg-slate-800 cursor-pointer"
+            className={`${ selectedLabels.includes(labelQuery.name) && 'selected-label'} animate-fadeIn px-2 py-1 rounded-full text-xs font-semibold hover:bg-slate-800 cursor-pointer`}
             style={{ border: `1px solid #${labelQuery.color}` }}
           >
             {labelQuery.name}

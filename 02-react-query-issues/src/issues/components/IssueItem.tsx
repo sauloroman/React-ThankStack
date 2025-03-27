@@ -4,6 +4,7 @@ import { GithubIssue, State } from '../interfaces';
 import { FC } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { getIssue, getIssueComments } from '../actions';
+import { timeSince } from '../../helpers';
 
 interface Props {
   issue: GithubIssue
@@ -35,8 +36,8 @@ export const IssueItem: FC<Props> = ({ issue }) => {
 
   return (
     <div 
-      /* onMouseEnter={ prefetchData } */ 
-      onMouseEnter={presetData}
+      onMouseEnter={ prefetchData } 
+      // onMouseEnter={presetData}
       className="animate-fadeIn flex items-center px-2 py-3 mb-5 border rounded-md bg-slate-900 hover:bg-slate-800"
     >
       
@@ -54,9 +55,20 @@ export const IssueItem: FC<Props> = ({ issue }) => {
         { issue.title }
         </a>
         <span className="text-gray-500">
-          #${issue.number} opened 2 days ago by{' '}
+          #${issue.number} opened {timeSince(issue.created_at)} days ago by{' '}
           <span className="font-bold">{issue.user.login}</span>
         </span>
+
+        <div className='flex flex-wrap'>
+          {
+            issue.labels.map( label => (
+              <span 
+                style={{ border: `1px solid #${label.color}`}}
+                className='px-2 mr-2 py-1 text-xs text-white rounded-md' key={label.id}>{label.name}</span>
+            ))
+          }
+        </div>
+
       </div>
 
       <img
