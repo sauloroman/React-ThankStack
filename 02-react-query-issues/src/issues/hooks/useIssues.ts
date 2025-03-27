@@ -9,8 +9,6 @@ export const useIssues = () => {
     staleTime: 1000 * 60,
   })
 
-  console.log(issuesQuery.data)
-
   return {
     issuesQuery
   }
